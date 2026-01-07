@@ -2,6 +2,11 @@ import { useEffect, useState } from "react"
 import { postService } from "../service/PostService";
 import { toast } from "react-toastify";
 import type { Posts } from "../types/post";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import PostCard from "../components/PostCard";
+import Profile from "../components/Profile";
+import p from "../../src/assets/download.png";
 
 const Home = () => {
     const [posts, setPosts] = useState<Posts[]>([]);
@@ -19,7 +24,6 @@ const Home = () => {
         } finally {
             setLoading(false);
         }
-
     }
 
     useEffect(() => {
@@ -31,33 +35,46 @@ const Home = () => {
     if (loading) return "Loading Post wait a minute";
 
     return (
-        <section className="w-full h-auto flex space-x-4 bg-linear-to-br from-slate-200 via-indigo-200 to-slate-200">
-            <div className="w-80">
-                <div className="w-[90%] bg-zinc-50 m-6 rounded-xl shadow-sm p-4">
-                    <h2 className="text-2xl font-medium">Profile: </h2>
-                    <p>Username: Unknow</p>
-                    <p>Email: Unknow</p>
-                </div>
-            </div>
-            <div className="flex-1 h-screen overflow-y-scroll flex-col">
-                <div className="w-full h-auto px-2">
-                    <div className="sticky top-0 left-0 my-6 z-50 backdrop-blur-3xl rounded-md p-4 ring-1 ring-slate-200/90 bg-[rgba(225,225,255,0.1)]">
-                        <h2 className="text-4xl font-semibold bg-linear-to-r from-emerald-500 via-indigo-500 bg-clip-text text-transparent">My Blog List:</h2>
+        <main className="w-full">
+            <Navbar />
+            <section className="flex gap-4 app-container pt-4">
+                <aside className="w-72 flex flex-col items-center p-4 pl-0 gap-y-4">
+                    {/* profile */}
+                    <Profile />
+                    {/* side bar all item list */}
+                    <Sidebar />
+                </aside>
+                {/* post content area */}
+                <div className="flex-1 h-screen p-4 justify-center overflow-y-scroll flex-col">
+                    <div className="relative w-full mb-4">
+                        <img src={p} alt="" className="profile ring-0 w-8 h-8 absolute top-1/2 left-2 -translate-y-1/2" />
+                        <input className="w-full h-full py-2 px-14" type="text" placeholder="What's is on your mind?" />
+                        <button className="absolute top-1/2 right-2 -translate-y-1/2 btn py-1 px-4">
+                            Post
+                        </button>
                     </div>
-                    {posts.map((item, i) => (
-                        <div key={i} className="z-0 bg-zinc-50 shadow rounded-2xl p-4 mb-6">
-                            <div className="mb-2 px-1.5 py-0.5 rounded-md backdrop-blur-2xl bg-[rgba(225,225,255,0.03)] ring-1 ring-[rgba(225,225,225,0.6)] inline-block">
-                                <h3 className="">Author: <span className="text-sky-500 font-semibold">{item.author?.username}</span></h3>
-                            </div>
-                            <h1 className="text-indigo-400 text-2xl font-semibold">{item.title}</h1>
-                            <p className="text-slate-900/80 mt-2">{item.content}</p>
-                        </div>
-                    ))}
+                    <div className="w-full h-auto">
+                        {posts.map((item, i) => (
+                            <PostCard
+                                key={i}
+                                id={item.id}
+                                title={item.title}
+                                content={item.content}
+                                author={item.author}
+                                comments={item.comments}
+                                like={item.like}
+                                likeByMe={item.likeByMe}
+                                createdAt={item.updatedAt}
+                                updatedAt={item.updatedAt}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <div className="w-80">
-            </div>
-        </section>
+                <div className="w-72 p-4 pr-0">
+                    <p>Sponsor show on this place.</p>
+                </div>
+            </section>
+        </main>
     )
 }
 

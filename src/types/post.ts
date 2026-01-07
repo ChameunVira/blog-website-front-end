@@ -14,7 +14,11 @@ export interface PostResponse {
         userId: number,
         username: string
     },
-    comments: CommentResponse[]
+    comments?: CommentResponse[],
+    like: number,
+    likeByMe: boolean
+    createdAt: string,
+    updatedAt: string
 };
 
 

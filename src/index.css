@@ -1,1 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap");
 @import "tailwindcss";
+
+
+@layer base {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        @apply font-sans bg-linear-to-br from-slate-50 via-purple-50 to-indigo-50;
+    }
+    h1,h2,h3,h4,h5 {
+        @apply text-slate-800/80;
+    }
+    h1 {
+        @apply text-3xl text-slate-800 font-semibold;
+    }
+    h2 {
+        @apply text-2xl font-medium text-slate-800/90;
+    }
+    p {
+        @apply text-[1.05rem] text-slate-800/95;
+    }
+    input {
+        @apply rounded-md text-slate-900/90 ring-1 ring-slate-400/80 block focus:outline-2 focus:outline-indigo-600 focus:outline-solid;
+    }
+    button {
+        @apply cursor-pointer;
+    }
+    .btn {
+        @apply rounded-md font-medium px-2.5 py-2 bg-indigo-600 text-white transition-colors cursor-pointer hover:bg-indigo-700;
+    }
+    header {
+        @apply w-full h-auto sticky top-0 left-0 bg-zinc-50;
+    }
+    .app-container {
+        @apply px-8 sm:px-12 md:px-16 lg:px-24;
+    }
+    .profile {
+        @apply w-10 h-10 rounded-full object-cover ring-1 ring-indigo-500 hover:scale-105 transition-transform duration-75 cursor-pointer;
+    }
+    
+}
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-khmer: "Kantumruy+Pro";
+}
