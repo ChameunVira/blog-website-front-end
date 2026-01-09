@@ -1,9 +1,10 @@
 import type React from "react"
-import { useState } from "react"
-import type { AuthRequest } from "../types/auth"
-import { atuhService } from "../service/authService"
+import { useContext, useState } from "react"
+import type { AuthRequest } from "../../types/auth"
+import { atuhService } from "../../service/authService"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { AppContextProvider } from "../../context/AppContext"
 
 const Login: React.FC = () => {
 
@@ -12,6 +13,7 @@ const Login: React.FC = () => {
         password: "",
     });
     const [loading, setLoading] = useState<boolean>(false);
+    const {setIsLoggedIn} = useContext<any>(AppContextProvider);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,9 +24,11 @@ const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+
         try {
             const response = await atuhService.login(data);
             if (response.success) {
+                setIsLoggedIn(true);
                 toast.success("Login successfully.")
                 navigate("/")
             }
@@ -35,7 +39,6 @@ const Login: React.FC = () => {
             setLoading(false);
         }
     }
-
     return (
         <section className="w-full h-screen flex justify-center items-center bg-linear-to-br from-slate-200 via-indigo-200 to-slate-200">
             <div className="w-1/3 rounded-2xl shadow-sm bg-zinc-50 p-4">
@@ -43,11 +46,11 @@ const Login: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                     <p className="font-medium mb-2 text-[1.12rem] text-slate-800/90">Email</p>
                     <div className="*:w-full *:px-2 *:py-1.5 *:mb-3">
-                        <input type="email" placeholder="Email" onChange={handleChange} name="email" value={data.email} required/>
+                        <input type="email" placeholder="Email" onChange={handleChange} name="email" value={data.email} required />
                     </div>
                     <p className="font-medium mb-2 text-[1.12rem] text-slate-800/90">Password</p>
                     <div className="*:w-full *:px-2 *:py-1.5 *:mb-3">
-                        <input type="password" placeholder="Password" onChange={handleChange} name="password" value={data.password} required/>
+                        <input type="password" placeholder="Password" onChange={handleChange} name="password" value={data.password} required />
                     </div>
                     <button
                         disabled={loading}

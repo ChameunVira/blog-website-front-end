@@ -10,6 +10,7 @@ export interface PostResponse {
     id: number,
     title: string,
     content: string,
+    image: string,
     author: {
         userId: number,
         username: string

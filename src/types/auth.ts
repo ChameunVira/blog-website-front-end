@@ -4,11 +4,12 @@ export interface UserRequest {
     password: string 
 }
 
-export type AuthRequest = Omit<UserRequest , "username">;
+export type AuthRequest = Omit<UserRequest , "username" | "profile">;
 
 export interface UserResponse extends Omit<UserRequest , "password"> {
     id: number,
     token: string,
+    profile: string,
     role: Array<string>,
     createdAt: string,
     updatedAt: string

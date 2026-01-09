@@ -7,12 +7,20 @@ class AuthService {
     public constructor(endpoint : string) {
         this.endpoint = endpoint;
     }
-    public register(data: UserRequest): Promise<ApiResponse<UserResponse>> {
+    public register(data: any): Promise<ApiResponse<UserResponse>> {
         return api.post(`${this.endpoint}/register` , data);
     }
 
     public login(data: AuthRequest): Promise<ApiResponse<UserRequest>> {
         return api.post(`${this.endpoint}/login` , data);
+    }
+
+    public getProfile(): Promise<ApiResponse<UserResponse>> {
+        return api.get(`${this.endpoint}/profile`);
+    }
+    
+    public isAuthenticated(): Promise<boolean> {
+        return api.get(`${this.endpoint}/is-authenticated`);
     }
 }
 
