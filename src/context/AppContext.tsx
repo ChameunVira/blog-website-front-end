@@ -2,7 +2,6 @@
 
 import React, { createContext, useEffect, useState } from 'react'
 import type { UserResponse } from '../types/auth';
-import { toast } from 'react-toastify';
 import { atuhService } from '../service/authService';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +10,7 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userProfile, setUserProfile] = useState<UserResponse | null>(null);
+    const [isPostModelOpen , setIsPostModelOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
 
@@ -44,7 +44,8 @@ const AppContext: React.FC<React.PropsWithChildren> = ({ children }) => {
 
     const contextValue = {
         isLoggedIn, setIsLoggedIn,
-        userProfile, setUserProfile
+        userProfile, setUserProfile,
+        isPostModelOpen , setIsPostModelOpen
     }
 
     return (

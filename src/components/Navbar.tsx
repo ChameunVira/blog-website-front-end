@@ -3,22 +3,35 @@ import type React from "react"
 import { useContext, useRef, useState } from "react"
 import { AppContextProvider } from "../context/AppContext"
 import { Link } from "react-router-dom"
+import { atuhService } from "../service/authService"
 
 const Navbar: React.FC = () => {
-    const { userProfile, isLoggedIn , setIsLoggedIn } = useContext<any>(AppContextProvider);
+    const { userProfile, isLoggedIn, setIsLoggedIn } = useContext<any>(AppContextProvider);
     const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
+    const { isPostModelOpen, setIsPostModelOpen } = useContext<any>(AppContextProvider);
     const dropDownRef = useRef<any>(null);
 
     const handleToggleDropDown = (e: React.FormEvent) => {
-        if(e.target !== dropDownRef.current) {
+        if (e.target !== dropDownRef.current) {
             setIsDropDownOpen(false);
         }
-        setIsDropDownOpen(true);
+        setIsDropDownOpen(!isPostModelOpen);
     }
 
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
+    const handleLogout = async () => {
+        try {
+            const response = await atuhService.logout();
+            if (response) {
+                setIsLoggedIn(true)
+            }
+        } catch (e: any) {
+            setIsLoggedIn(false);
+        }
+    }
+
+    const handlePost = () => {
+        setIsPostModelOpen(!isPostModelOpen);
     }
 
     // const handleMouseUp = (e: React.FormEvent) => {
@@ -39,7 +52,9 @@ const Navbar: React.FC = () => {
                 </div>
                 {userProfile && isLoggedIn ? (
                     <div className="flex gap-4 items-center">
-                        <button className="btn">Add Post</button>
+                        <button
+                            onClick={handlePost}
+                            className="btn">Add Post</button>
                         <div className="rounded-full relative">
                             <img
                                 onMouseDown={handleToggleDropDown}
@@ -49,9 +64,9 @@ const Navbar: React.FC = () => {
                                 <div
                                     ref={dropDownRef}
                                     className="absolute left-0 shadow-sm rounded-md bg-zinc-50 px-2.5 py-1">
-                                    <button 
-                                    onClick={handleLogout}
-                                    className="btn bg-rose-500 text-white">Logout</button>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="btn bg-rose-500 text-white">Logout</button>
                                 </div>
                             )}
                         </div>

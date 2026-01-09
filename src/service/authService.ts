@@ -15,6 +15,10 @@ class AuthService {
         return api.post(`${this.endpoint}/login` , data);
     }
 
+    public logout(): Promise<null> {
+        return api.post(`${this.endpoint}/logout`);
+    }
+
     public getProfile(): Promise<ApiResponse<UserResponse>> {
         return api.get(`${this.endpoint}/profile`);
     }

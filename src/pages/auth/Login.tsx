@@ -3,7 +3,7 @@ import { useContext, useState } from "react"
 import type { AuthRequest } from "../../types/auth"
 import { atuhService } from "../../service/authService"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AppContextProvider } from "../../context/AppContext"
 
 const Login: React.FC = () => {
@@ -13,7 +13,7 @@ const Login: React.FC = () => {
         password: "",
     });
     const [loading, setLoading] = useState<boolean>(false);
-    const {setIsLoggedIn} = useContext<any>(AppContextProvider);
+    const { setIsLoggedIn, setUserProfile } = useContext<any>(AppContextProvider);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +29,11 @@ const Login: React.FC = () => {
             const response = await atuhService.login(data);
             if (response.success) {
                 setIsLoggedIn(true);
+                setUserProfile(response.data);
                 toast.success("Login successfully.")
                 navigate("/")
             }
         } catch (e: any) {
-            console.log(e.message);
             toast.error("Something went wrong.")
         } finally {
             setLoading(false);
@@ -58,7 +58,11 @@ const Login: React.FC = () => {
                         className="w-full mt-3 btn">
                         {loading ? "loading..." : "Login"}
                     </button>
-                    <p className="mt-2 text-slate-800/90">Not registered yet? <span className="text-indigo-500 font-medium cursor-pointer">Create an Account</span></p>
+                    <p className="mt-2 text-slate-800/90">Not registered yet?
+                        <Link to="/register">
+                            <span className="text-indigo-500 font-medium cursor-pointer">Create an Account</span>
+                        </Link>
+                    </p>
                 </form>
             </div>
         </section>

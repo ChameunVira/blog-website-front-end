@@ -23,7 +23,7 @@
     p {
         @apply text-[1.05rem] text-slate-800/95;
     }
-    input {
+    input,textarea {
         @apply rounded-md text-slate-900/90 ring-1 ring-slate-400/80 block focus:outline-2 focus:outline-indigo-600 focus:outline-solid;
     }
     button {
@@ -45,6 +45,6 @@
 }
 
 @theme {
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Poppins", 'Kantumruy+Pro' , ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-khmer: "Kantumruy+Pro";
 }

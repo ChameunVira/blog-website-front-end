@@ -1,19 +1,33 @@
-import { AlertTriangle, Heart, MessageCircleMore } from "lucide-react"
+import { AlertTriangle, Heart, MessageCircleMore, MoreVertical } from "lucide-react"
 import type React from "react"
-import p from "../../src/assets/s-hunsen.jpg"
 import type { PostResponse } from "../types/post";
 import { useState } from "react";
 import { postService } from "../service/PostService";
+// import { AppContextProvider } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, comments, like, likeByMe, createdAt, updatedAt }) => {
 
-    const [isLike , setIsLike] = useState<boolean | undefined>(likeByMe);
-    const [likeCount , setLikeCount] = useState<number>(like);
+    const [isLike, setIsLike] = useState<boolean | undefined>(likeByMe);
+    const [likeCount, setLikeCount] = useState<number>(like);
+    // const { userProfile } = useContext<any>(AppContextProvider);
+
+
+    const handleDeletePost = async (id: number) => {
+        try {
+            const response = await postService.delete(id);
+            if (response.success) {
+                toast.success("Post deleted successfully.");
+            }
+        } catch (e: any) {
+            toast.error("You don't have permission to delete this post.");
+        }
+    }
 
     const handleLike = async (id: any) => {
         const prevIsLike: boolean | undefined = isLike;
         const prevLikeCount: number | undefined = likeCount;
-        setLikeCount(prev => !prevIsLike ? prev += 1 : prev -= 1);
+        setLikeCount(prev => prevIsLike ? prev -= 1 : prev += 1);
         setIsLike(!isLike);
         try {
             postService.toggleLike(id);
@@ -27,12 +41,19 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
     return (
         <>
             <div className="w-full felx flex-col *:mb-4 z-0 bg-zinc-50 shadow rounded-2xl p-6 mb-4">
-                <div className="flex items-center space-x-2">
-                    <img src={p} alt="" className="profile" />
-                    <div>
-                        <h4 className="text-800/800 font-semibold">{author?.username}</h4>
-                        <p className="text-800/50 text-sm">{updatedAt ? updatedAt : createdAt}</p>
+                <div className="flex items-center justify-between">
+                    <div className="flex space-x-4">
+                        <img src={`${import.meta.env.VITE_API_URL}/images/${image}`} alt="" className="profile" />
+                        <div className="leading-5.5">
+                            <h4 className="text-800/800 font-semibold">{author?.username}</h4>
+                            <p className="text-800/50 text-sm">{updatedAt ? updatedAt : createdAt}</p>
+                        </div>
                     </div>
+                    <button
+                        onClick={() => handleDeletePost(id)}
+                        className="rounded-full text-slate-800/90 p-1.5 hover:bg-slate-200/90 transition-colors duration-75">
+                        <MoreVertical size={20} />
+                    </button>
                 </div>
                 <div>
                     <h2 className="text-2xl font-medium">{title}</h2>
