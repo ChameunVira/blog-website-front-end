@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
             <div className="w-full flex flex-col py-2 bg-zinc-50 rounded-xl shadow-sm">
                 {items.map((item, i) => (
                     <Link key={i} to={item.path}>
-                        <div className="flex mb-1 gap-4 w-full group items-center py-4 hover:text-linear hover:border-l-6 hover:border-indigo-500/90 hover:border-solid  bg-linear-to-r hover:from-indigo-200 hover:to-transparent transition-all duration-75 cursor-pointer">
+                           <div className="flex mb-1 gap-4 w-full group items-center py-4 hover:text-linear hover:border-l-6 hover:border-indigo-500/90 hover:border-solid  bg-linear-to-r hover:from-indigo-200 hover:to-transparent transition-all duration-75 cursor-pointer">
                             <div className="text-slate-600 ml-4 group-hover:text-slate-800 transition-colors duration-75">
                                 {item.icon}
                             </div>

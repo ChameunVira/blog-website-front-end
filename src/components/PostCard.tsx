@@ -43,7 +43,7 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
             <div className="w-full felx flex-col *:mb-4 z-0 bg-zinc-50 shadow rounded-2xl p-6 mb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex space-x-4">
-                        <img src={`${import.meta.env.VITE_API_URL}/images/${image}`} alt="" className="profile" />
+                        <img src={`${import.meta.env.VITE_API_URL}/images/${author.profile}`} alt="" className="profile" />
                         <div className="leading-5.5">
                             <h4 className="text-800/800 font-semibold">{author?.username}</h4>
                             <p className="text-800/50 text-sm">{updatedAt ? updatedAt : createdAt}</p>

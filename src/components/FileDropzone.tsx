@@ -1,18 +1,25 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-const FileDropzone: React.FC = () => {
+const FileDropzone: React.FC<any> = ({ sendImage }) => {
     const onDrop = useCallback((acceptedFiles: any) => {
-        console.log(acceptedFiles[0]);
-    }, [])
+        handleImageUplaod(acceptedFiles);
+    }, []);
+
+    const handleImageUplaod = (acceptedFiles: any) => {
+        const file = acceptedFiles[0];
+        if (file) {
+            sendImage(file);
+        }
+    }
 
     const { getInputProps, getRootProps, isDragActive } = useDropzone({
         onDrop,
         multiple: false
-    })
+    });
 
     return (
-        <div style={{width: "100%" }}>
+        <div style={{ width: "100%" }}>
             <div {...getRootProps()}
                 style={{
                     border: "2px dashed #999",

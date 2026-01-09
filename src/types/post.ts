@@ -14,6 +14,7 @@ export interface PostResponse {
     author: {
         userId: number,
         username: string
+        profile: string
     },
     comments?: CommentResponse[],
     like: number,

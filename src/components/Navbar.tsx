@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from "react"
 import { AppContextProvider } from "../context/AppContext"
 import { Link } from "react-router-dom"
 import { atuhService } from "../service/authService"
+import { useClickOutside } from "../hooks/useClickOutside"
 
 const Navbar: React.FC = () => {
     const { userProfile, isLoggedIn, setIsLoggedIn } = useContext<any>(AppContextProvider);
@@ -11,13 +12,7 @@ const Navbar: React.FC = () => {
     const { isPostModelOpen, setIsPostModelOpen } = useContext<any>(AppContextProvider);
     const dropDownRef = useRef<any>(null);
 
-    const handleToggleDropDown = (e: React.FormEvent) => {
-        if (e.target !== dropDownRef.current) {
-            setIsDropDownOpen(false);
-        }
-        setIsDropDownOpen(!isPostModelOpen);
-    }
-
+    useClickOutside(dropDownRef, () => setIsDropDownOpen(false));
 
     const handleLogout = async () => {
         try {
@@ -57,8 +52,7 @@ const Navbar: React.FC = () => {
                             className="btn">Add Post</button>
                         <div className="rounded-full relative">
                             <img
-                                onMouseDown={handleToggleDropDown}
-                                onMouseUp={handleToggleDropDown}
+                                onClick={() => setIsDropDownOpen(true)}
                                 src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`} alt="Avata" className="profile" />
                             {isDropDownOpen && (
                                 <div

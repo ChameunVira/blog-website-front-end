@@ -13,7 +13,7 @@ import PostModel from "../components/PostModel";
 const Home = () => {
     const [posts, setPosts] = useState<PostResponse[]>([]);
     const [loading, setLoading] = useState(false);
-    const { userProfile , isPostModelOpen , setIsPostModelOpen } = useContext<any>(AppContextProvider);
+    const { userProfile, isPostModelOpen, setIsPostModelOpen } = useContext<any>(AppContextProvider);
     const handleFetchPost = async () => {
         setLoading(true);
         try {
@@ -32,7 +32,7 @@ const Home = () => {
         const controller = new AbortController();
         handleFetchPost();
         return controller.abort();
-    }, [])
+    }, []);
 
     return (
         <main className="w-full h-auto relative">
@@ -52,9 +52,9 @@ const Home = () => {
                     <div className="relative w-full mb-4">
                         <img src={`${import.meta.env.VITE_API_URL}/images/${userProfile?.profile}`} alt="" className="profile ring-0 w-8 h-8 absolute top-1/2 left-2 -translate-y-1/2" />
                         <input className="w-full h-full py-2 px-14" type="text" placeholder="What's is on your mind?" />
-                        <button 
-                        onClick={() => setIsPostModelOpen(!isPostModelOpen)}
-                        className="absolute top-1/2 right-2 -translate-y-1/2 btn py-1 px-4">
+                        <button
+                            onClick={() => setIsPostModelOpen(!isPostModelOpen)}
+                            className="absolute top-1/2 right-2 -translate-y-1/2 btn py-1 px-4">
                             Post
                         </button>
                     </div>
