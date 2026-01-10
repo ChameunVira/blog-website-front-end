@@ -1,26 +1,27 @@
 import { AlertTriangle, Heart, MessageCircleMore, MoreVertical } from "lucide-react"
 import type React from "react"
-import type { PostResponse } from "../types/post";
+import type { PostResponse } from "../../types/post";
 import { useState } from "react";
-import { postService } from "../service/PostService";
-// import { AppContextProvider } from "../context/AppContext";
+import { postService } from "../../service/PostService";
 import { toast } from "react-toastify";
+import PopupPostComment from "./PopupPostComment";
 
 const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, comments, like, likeByMe, createdAt, updatedAt }) => {
 
     const [isLike, setIsLike] = useState<boolean | undefined>(likeByMe);
     const [likeCount, setLikeCount] = useState<number>(like);
-    // const { userProfile } = useContext<any>(AppContextProvider);
-
+    const [comment, setComment] = useState<boolean>(false);
 
     const handleDeletePost = async (id: number) => {
         try {
             const response = await postService.delete(id);
             if (response.success) {
                 toast.success("Post deleted successfully.");
+            } else {
+                toast.error("You don't have permiss ion to delete this post.");
             }
         } catch (e: any) {
-            toast.error("You don't have permission to delete this post.");
+            console.log("Error");
         }
     }
 
@@ -43,7 +44,11 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
             <div className="w-full felx flex-col *:mb-4 z-0 bg-zinc-50 shadow rounded-2xl p-6 mb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex space-x-4">
-                        <img src={`${import.meta.env.VITE_API_URL}/images/${author.profile}`} alt="" className="profile" />
+                        {author.profile.endsWith(".mp4") ? <>
+                            <video autoPlay loop muted className="profile object-cover">
+                                <source src={`${import.meta.env.VITE_API_URL}/images/${author.profile}`} />
+                            </video>
+                        </> : <img src={`${import.meta.env.VITE_API_URL}/images/${author.profile}`} alt="" className="profile" />}
                         <div className="leading-5.5">
                             <h4 className="text-800/800 font-semibold">{author?.username}</h4>
                             <p className="text-800/50 text-sm">{updatedAt ? updatedAt : createdAt}</p>
@@ -60,7 +65,18 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
                     <p className="mt-2 indent-8 leading-5.5">{content}</p>
                 </div>
                 <div className="h-100 bg-zinc-100 rounded-md overflow-hidden">
-                    <img src={`${import.meta.env.VITE_API_URL}/images/${image}`} alt="" className="w-full h-full object-contain hover:scale-105 transition-transform duration-75 cursor-pointer" />
+                    {image.endsWith(".mp4") ? (
+                        <video
+                            controls
+                            className="w-full h-full object-contain bg-black"
+                            preload="metadata"
+                        >
+                            <source src={`${import.meta.env.VITE_API_URL}/images/${image}`} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : (
+                        <img src={`${import.meta.env.VITE_API_URL}/images/${image}`} alt="" className="w-full h-full object-contain hover:scale-105 transition-transform duration-75 cursor-pointer" />
+                    )}
                 </div>
                 <div
                     className="flex justify-between items-center"
@@ -73,7 +89,9 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
                         <Heart size={25} />
                         <p className="text-slate-700/90 ml-2 text-[1.16rem]">{likeCount}</p>
                     </button>
-                    <button className="text-slate-800 flex items-center">
+                    <button
+                        onClick={() => setComment(!comment)}
+                        className="text-slate-800 flex items-center">
                         <MessageCircleMore size={25} />
                         <p className="text-slate-700/90 ml-2 text-[1.16rem]">{comments?.length}</p>
                     </button>
@@ -82,6 +100,8 @@ const PostCard: React.FC<PostResponse> = ({ id, title, content, image, author, c
                     </button>
                 </div>
             </div>
+
+            {comment && <PopupPostComment post={{ id, title, content, image, author, like, likeByMe, createdAt, updatedAt }} onClose={() => setComment(false)} />}
         </>
     )
 }

@@ -1,10 +1,4 @@
-interface CommentResponse {
-    id: number,
-    content: string,
-    createAt: string,
-    userId: number,
-    username: string
-}
+import type { CommentResponse } from "./comment";
 
 export interface PostResponse {
     id: number,

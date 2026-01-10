@@ -38,12 +38,12 @@ const Navbar: React.FC = () => {
     return (
         <header className="sticky top-0 left-0 z-50">
             <nav className="flex app-container justify-between py-3.5 shadow">
-                <h1 className="font-semibold cursor-pointer">KH <span className="text-indigo-600">SOCIAL</span></h1>
-                <div className="relative w-1/3">
-                    <div className="text-slate-800/80 absolute cursor-pointer top-1/2 left-6 -translate-1/2">
-                        <Search />
+                <h1 className="font-semibold cursor-pointer text-xl shrink-0 mr-4">KH <span className="text-indigo-600">SOCIAL</span></h1>
+                <div className="relative hidden md:block w-1/3 max-w-md">
+                    <div className="text-slate-800/80 absolute cursor-pointer top-1/2 left-4 -translate-y-1/2">
+                        <Search size={18} />
                     </div>
-                    <input type="text" className="w-full h-full px-12" placeholder="Search For Creators" />
+                    <input type="text" className="w-full h-10 pl-10 pr-4 bg-zinc-100 border-none rounded-full text-sm focus:ring-2 focus:ring-indigo-500/20" placeholder="Search For Creators" />
                 </div>
                 {userProfile && isLoggedIn ? (
                     <div className="flex gap-4 items-center">

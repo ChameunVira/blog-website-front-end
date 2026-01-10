@@ -12,7 +12,7 @@ export abstract class BaseService<T , C , U> {
     getById(id: number | string): Promise<ApiResponse<T>> {
         return api.get(`${this.endpoint}/${id}`);
     }
-    create(data: C): Promise<ApiResponse<T>> {
+    create(data: C | any): Promise<ApiResponse<T>> {
         return api.post(this.endpoint , data);
     }
     update(id: number | string , data: U): Promise<ApiResponse<T>> {
